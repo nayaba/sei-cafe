@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import * as itemsAPI from '../../utilities/items-api';
 import * as ordersAPI from '../../utilities/orders-api';
 import './NewOrderPage.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
 import MenuList from '../../components/MenuList/MenuList';
 import CategoryList from '../../components/CategoryList/CategoryList';
@@ -14,6 +14,7 @@ export default function NewOrderPage({ user, setUser }) {
   const [activeCat, setActiveCat] = useState('');
   const [cart, setCart] = useState(null);
   const categoriesRef = useRef([]);
+  const navigate = useNavigate();
 
   // The empty dependency array causes the effect
   // to run ONLY after the FIRST render
@@ -47,6 +48,11 @@ export default function NewOrderPage({ user, setUser }) {
     setCart(updatedCart);
   }
 
+  async function handleCheckout() {
+    await ordersAPI.checkout();
+    navigate('/orders');
+  }
+
 
   return (
     <main className="NewOrderPage">
@@ -67,6 +73,7 @@ export default function NewOrderPage({ user, setUser }) {
       <OrderDetail
         order={cart}
         handleChangeQty={handleChangeQty}
+        handleCheckout={handleCheckout}
       />
     </main>
   );
