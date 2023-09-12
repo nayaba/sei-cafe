@@ -45,3 +45,19 @@
   top: 50vh;
   font-size: 2vmin;
 }
+
+.OrderDetail .payment {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto;
+  padding: 1vmin 0;
+  color: var(--text-light);
+  border-top: .1vmin solid var(--tan-3);
+}
+
+.OrderDetail .payment form {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 1.25vmin;
+  color: var(--text-light);
+}

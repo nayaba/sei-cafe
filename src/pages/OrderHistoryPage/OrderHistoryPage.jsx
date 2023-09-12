@@ -1,56 +1,45 @@
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import './OrderHistoryPage.css'
+import * as ordersAPI from '../../utilities/orders-api'
+import Logo from '../../components/Logo/Logo'
+import UserLogOut from '../../components/UserLogOut/UserLogOut'
+import OrderDetail from '../../components/OrderDetail/OrderDetail'
+import OrderList from '../../components/OrderList/OrderList'
 
+export default function OrderHistoryPage({ user, setUser }) {
+  const [orders, setOrders] = useState([])
+  const [activeOrder, setActiveOrder] = useState(null)
 
-export default function OrderHistoryPage() {
-  // const stripe = useStripe()
-  // const elements = useElements()
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault()
-
-  //   if (!stripe || !elements) return
-
-  //   const card = elements.getElement(CardElement)
-  //   const result = await stripe.createPaymentMethod({
-  //     type: 'card',
-  //     card: card
-  //   })
-
-  //   if (result.error) {
-  //     console.log(result.error.message)
-  //   } else {
-  //     const response = await fetch('/api/payment', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({
-  //         amount: 100, // Convert to smallest unit (cents for USD)
-  //         id: result.paymentMethod.id
-  //       })
-  //     })
-
-  //     const paymentResult = await response.json()
-
-  //     if (paymentResult.message === 'Payment successful!') {
-  //       // Handle success
-  //       alert(paymentResult.message)
-  //     } else {
-  //       // Handle error
-  //       alert(paymentResult.message)
-  //     }
-  //   }
-  // }
+  useEffect(function () {
+    async function getOrders() {
+      const orders = await ordersAPI.getAllForUser()
+      setActiveOrder(orders[0] || null)
+      setOrders(orders)
+    }
+    getOrders()
+  }, [])
 
   return (
-    // <form onSubmit={handleSubmit}>
-    //   <CardElement />
-    //   <button type="submit">Pay</button>
-    // </form>
-    <div>
-      Order History Page
-    </div>
+    <main className="OrderHistoryPage">
+      <aside>
+        <Link to="/">
+          <Logo />
+        </Link>
+        <Link to="/orders/new" className="button btn-sm">
+          NEW ORDER
+        </Link>
+        <UserLogOut user={user} setUser={setUser} />
+      </aside>
+      {/* Render an OrderList component (needs to be coded) */}
+      <OrderList
+        orders={orders}
+        activeOrder={activeOrder}
+        setActiveOrder={setActiveOrder}
+      />
+      {/* Render the existing OrderDetail component */}
+      <OrderDetail order={activeOrder} />
+      
+    </main>
   )
 }

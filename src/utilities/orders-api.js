@@ -27,3 +27,8 @@ export function checkout(pyaload) {
   // Changing data on the server, so make it a POST request
   return sendRequest(`${BASE_URL}/cart/checkout`, 'POST', pyaload);
 }
+
+// Fetches all orders for the logged in user
+export function getAllForUser() {
+  return sendRequest(`${BASE_URL}`);
+}

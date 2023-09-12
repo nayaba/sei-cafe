@@ -24,7 +24,7 @@ export default function App() {
               path="/orders/new"
               element={<NewOrderPage user={user} setUser={setUser} />}
             />
-            <Route path="/orders" element={<OrderHistoryPage />} />
+            <Route path="/orders" element={<OrderHistoryPage user={user} setUser={setUser}  />} />
             {/* redirect to /orders/new if path in address bar hasn't matched a <Route> above */}
             <Route path="/*" element={<Navigate to="/orders/new" />} />
             <Route path="/payment" element={<StripePaymentPage />} />

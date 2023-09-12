@@ -8,7 +8,13 @@ module.exports = {
   addToCart,
   setItemQtyInCart,
   checkout,
+  getAllForUser,
 };
+
+async function getAllForUser(req, res) {
+  const orders = await Order.find({user: req.user._id, isPaid: true}).sort('-updatedAt');
+  res.json(orders);
+}
 
 // A cart is the unpaid order for a user
 async function cart(req, res) {

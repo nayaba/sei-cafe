@@ -14,6 +14,7 @@ export default function NewOrderPage({ user, setUser }) {
   const [menuItems, setMenuItems] = useState([])
   const [activeCat, setActiveCat] = useState('')
   const [cart, setCart] = useState(null)
+  const [activeStripe, setActiveStripe] = useState(false)
   const categoriesRef = useRef([])
   const navigate = useNavigate()
 
@@ -53,7 +54,8 @@ export default function NewOrderPage({ user, setUser }) {
 
   async function handleCheckout() {
     // await ordersAPI.checkout()
-    navigate('/payment')
+    // navigate('/payment')
+    setActiveStripe(true)
   }
 
   return (
@@ -78,6 +80,8 @@ export default function NewOrderPage({ user, setUser }) {
           order={cart}
           handleChangeQty={handleChangeQty}
           handleCheckout={handleCheckout}
+          activeStripe={activeStripe}
+          setActiveStripe={setActiveStripe}
         />
 
     </main>

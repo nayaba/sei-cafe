@@ -2,7 +2,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useNavigate } from 'react-router-dom'
 import * as ordersAPI from '../../utilities/orders-api'
 
-export default function StripePaymentPage() {
+export default function StripePaymentPage({setActiveStripe}) {
   const stripe = useStripe()
   const elements = useElements()
   const navigate = useNavigate()
@@ -21,17 +21,6 @@ export default function StripePaymentPage() {
     if (result.error) {
       console.log(result.error.message)
     } else {
-      // const response = await fetch('/api/orders/cart/checkout', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({
-      //     amount: 100, // Convert to smallest unit (cents for USD)
-      //     id: result.paymentMethod.id
-      //   })
-      // })
-
 
       const response = await ordersAPI.checkout({
             amount: 100, // Convert to smallest unit (cents for USD)
@@ -44,6 +33,7 @@ export default function StripePaymentPage() {
         // Handle success
         alert(paymentResult.message)
         navigate('/orders')
+        setActiveStripe(false)
       } else {
         // Handle error
         alert(paymentResult.message)
