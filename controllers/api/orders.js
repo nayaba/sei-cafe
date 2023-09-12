@@ -1,5 +1,7 @@
 const Order = require('../../models/order');
 // const Item = require('../../models/item');
+const Stripe = require('stripe')
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 module.exports = {
   cart,
@@ -29,9 +31,43 @@ async function setItemQtyInCart(req, res) {
 }
 
 // Update the cart's isPaid property to true
+// async function checkout(req, res) {
+//   const cart = await Order.getCart(req.user._id);
+//   cart.isPaid = true;
+//   await cart.save();
+//   res.json(cart);
+// }
+
+
 async function checkout(req, res) {
-  const cart = await Order.getCart(req.user._id);
-  cart.isPaid = true;
-  await cart.save();
-  res.json(cart);
+  const { amount, id } = req.body
+
+  try {
+    const payment = await stripe.paymentIntents.create({
+      amount,
+      currency: 'USD',
+      description: 'I think I need to grab this from req.body',
+      payment_method: id,
+      confirm: true,
+      // automatic_payment_methods: {
+      //   enabled: true,
+      //   allow_redirects: 'never'
+      // }
+      return_url: 'http://localhost:3000/orders/new',
+    })
+    console.log('Payment: ', payment)
+
+
+    const cart = await Order.getCart(req.user._id);
+    cart.isPaid = true;
+    await cart.save();
+    
+    console.log("Updated cart: ", cart)
+
+    res.json({ message: 'Payment successful!', cart })
+  } catch (err) {
+    console.log('Error: ', err)
+    res.status(400).json({ message: 'Payment failed!' })
+  }
+
 }
