@@ -1,11 +1,11 @@
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { useNavigate } from 'react-router-dom'
 import * as ordersAPI from '../../utilities/orders-api'
 
 export default function StripePaymentPage() {
   const stripe = useStripe()
   const elements = useElements()
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -37,12 +37,13 @@ export default function StripePaymentPage() {
             amount: 100, // Convert to smallest unit (cents for USD)
             id: result.paymentMethod.id
           })
-          
-      const paymentResult = await response.json()
+
+      const paymentResult = await response
 
       if (paymentResult.message === 'Payment successful!') {
         // Handle success
         alert(paymentResult.message)
+        navigate('/orders')
       } else {
         // Handle error
         alert(paymentResult.message)
