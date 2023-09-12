@@ -5,12 +5,11 @@ import { getUser } from '../../utilities/users-service'
 import AuthPage from '../AuthPage/AuthPage'
 import NewOrderPage from '../NewOrderPage/NewOrderPage'
 import OrderHistoryPage from '../OrderHistoryPage/OrderHistoryPage'
+
+// STRIPE imports
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import StripePaymentPage from '../StripePayment/StripePayment'
-const stripePromise = loadStripe(
-  'pk_test_51NpEm7CoctFuvb9QuX05rBAsA7Gfb5FlSEWe0HRKeLJVsq3oj3M9kkz571Q9oP7qmhzL5kw0mRCFwhk5M9k0DbTK00KfMF8cP4'
-)
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)
 
 export default function App() {
   const [user, setUser] = useState(getUser())
@@ -27,7 +26,6 @@ export default function App() {
             <Route path="/orders" element={<OrderHistoryPage user={user} setUser={setUser}  />} />
             {/* redirect to /orders/new if path in address bar hasn't matched a <Route> above */}
             <Route path="/*" element={<Navigate to="/orders/new" />} />
-            <Route path="/payment" element={<StripePaymentPage />} />
           </Routes>
         </Elements>
       ) : (
