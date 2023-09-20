@@ -28,7 +28,7 @@ export default function StripePaymentPage({setActiveStripe, total, orderId}) {
       const response = await ordersAPI.checkout({
             amount: numTotal, // Convert to smallest unit (cents for USD)
             id: result.paymentMethod.id,
-            description: `OrderId: ${orderId}`
+            description: `Order# ${orderId}`
           })
 
       const paymentResult = await response
