@@ -8,7 +8,7 @@ export default function OrderDetail({
   handleChangeQty,
   handleCheckout,
   activeStripe,
-  setActiveStripe
+  setActiveStripe,
 }) {
   if (!order) return null
 
@@ -51,14 +51,22 @@ export default function OrderDetail({
               )}
               <span>{order.totalQty}</span>
               <span className="right">${order.orderTotal.toFixed(2)}</span>
+              {console.log('total qty: ', order.orderTotal.toFixed(2))}
             </section>
           </>
         ) : (
           <div className="hungry">Hungry?</div>
         )}
-            <section className="payment">
-              {activeStripe ? <StripePaymentPage setActiveStripe={setActiveStripe} /> : ''}
-            </section>
+        <section className="payment">
+          {activeStripe ? (
+            <StripePaymentPage
+              setActiveStripe={setActiveStripe}
+              total={order.orderTotal.toFixed(2)}
+            />
+          ) : (
+            ''
+          )}
+        </section>
       </div>
     </div>
   )

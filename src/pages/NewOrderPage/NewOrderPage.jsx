@@ -9,7 +9,6 @@ import CategoryList from '../../components/CategoryList/CategoryList'
 import OrderDetail from '../../components/OrderDetail/OrderDetail'
 import UserLogOut from '../../components/UserLogOut/UserLogOut'
 
-
 export default function NewOrderPage({ user, setUser }) {
   const [menuItems, setMenuItems] = useState([])
   const [activeCat, setActiveCat] = useState('')
@@ -17,15 +16,12 @@ export default function NewOrderPage({ user, setUser }) {
   const [activeStripe, setActiveStripe] = useState(false)
   const categoriesRef = useRef([])
  
-
   // The empty dependency array causes the effect
   // to run ONLY after the FIRST render
   useEffect(function () {
     async function getItems() {
       const items = await itemsAPI.getAll()
-      categoriesRef.current = [
-        ...new Set(items.map((item) => item.category.name))
-      ]
+      categoriesRef.current = [...new Set(items.map((item) => item.category.name))]
       setMenuItems(items)
       setActiveCat(categoriesRef.current[0])
     }
@@ -53,10 +49,10 @@ export default function NewOrderPage({ user, setUser }) {
   }
 
   async function handleCheckout() {
-    // await ordersAPI.checkout()
-    // navigate('/payment')
     setActiveStripe(true)
   }
+
+
 
   return (
     <main className="NewOrderPage">
@@ -67,9 +63,7 @@ export default function NewOrderPage({ user, setUser }) {
           activeCat={activeCat}
           setActiveCat={setActiveCat}
         />
-        <Link to="/orders" className="button btn-sm">
-          PREVIOUS ORDERS
-        </Link>
+        <Link to="/orders" className="button btn-sm">PREVIOUS ORDERS</Link>
         <UserLogOut user={user} setUser={setUser} />
       </aside>
       <MenuList
@@ -83,7 +77,6 @@ export default function NewOrderPage({ user, setUser }) {
           activeStripe={activeStripe}
           setActiveStripe={setActiveStripe}
         />
-
     </main>
   )
 }
