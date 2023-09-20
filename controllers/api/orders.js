@@ -40,13 +40,13 @@ async function setItemQtyInCart(req, res) {
 
 // Update the checkout function to create a STRIPE payment
 async function checkout(req, res) {
-  const { amount, id } = req.body
+  const { amount, id, description } = req.body
 
   try {
     const payment = await stripe.paymentIntents.create({
       amount,
       currency: 'USD',
-      description: 'I think I need to grab this from req.body',
+      description: description,
       payment_method: id,
       confirm: true,
       // stripe needs a return url; update this with deployed app url

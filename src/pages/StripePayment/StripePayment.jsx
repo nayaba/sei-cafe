@@ -2,7 +2,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useNavigate } from 'react-router-dom'
 import * as ordersAPI from '../../utilities/orders-api'
 
-export default function StripePaymentPage({setActiveStripe, total}) {
+export default function StripePaymentPage({setActiveStripe, total, orderId}) {
   const stripe = useStripe()
   const elements = useElements()
   const navigate = useNavigate()
@@ -27,7 +27,8 @@ export default function StripePaymentPage({setActiveStripe, total}) {
 
       const response = await ordersAPI.checkout({
             amount: numTotal, // Convert to smallest unit (cents for USD)
-            id: result.paymentMethod.id
+            id: result.paymentMethod.id,
+            description: `OrderId: ${orderId}`
           })
 
       const paymentResult = await response

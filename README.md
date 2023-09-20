@@ -75,13 +75,13 @@ Now, update the checkout function to handle Stripe payments:
 ```js
 // controllers/api/orders.js
 async function checkout(req, res) {
-  const { amount, id } = req.body
+  const { amount, id, description } = req.body
 
   try {
     const payment = await stripe.paymentIntents.create({
       amount,
       currency: 'USD',
-      description: 'I think I need to grab this from req.body',
+      description: description,
       payment_method: id,
       confirm: true,
       // stripe needs a return url; update this with deployed app url
@@ -153,7 +153,7 @@ import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useNavigate } from 'react-router-dom'
 import * as ordersAPI from '../../utilities/orders-api'
 
-export default function StripePaymentPage({setActiveStripe, total}) {
+export default function StripePaymentPage({setActiveStripe, total, orderId}) {
   const stripe = useStripe()
   const elements = useElements()
   const navigate = useNavigate()
@@ -178,7 +178,8 @@ export default function StripePaymentPage({setActiveStripe, total}) {
 
       const response = await ordersAPI.checkout({
             amount: numTotal, // Convert to smallest unit (cents for USD)
-            id: result.paymentMethod.id
+            id: result.paymentMethod.id,
+            description: `OrderId: ${orderId}`
           })
 
       const paymentResult = await response
@@ -301,6 +302,7 @@ In the next step, we will refactor the `OrderDetail.jsx` file. We're going to de
              <StripePaymentPage
                setActiveStripe={setActiveStripe}
                total={order.orderTotal.toFixed(2)}
+               orderId={order.orderId}
              />
            ) : (
              ''

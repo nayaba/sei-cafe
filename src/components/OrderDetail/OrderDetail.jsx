@@ -62,6 +62,7 @@ export default function OrderDetail({
             <StripePaymentPage
               setActiveStripe={setActiveStripe}
               total={order.orderTotal.toFixed(2)}
+              orderId={order.orderId}
             />
           ) : (
             ''
