@@ -1,10 +1,12 @@
-import './Logo.css';
+import './Logo.css'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+
 
 export default function Logo() {
   return (
     <div className="Logo">
-      <div>SEI</div>
-      <div>CAFE</div>
+      <i className="bi bi-cake2-fill logo"></i>
     </div>
-  );
+
+  )
 }
