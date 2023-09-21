@@ -42,7 +42,7 @@ export default function OrderDetail({
                 <span className="right">TOTAL&nbsp;&nbsp;</span>
               ) : (
                 <button
-                  className="btn-sm"
+                  className="btn-primary"
                   onClick={handleCheckout}
                   disabled={!lineItems.length}
                 >
