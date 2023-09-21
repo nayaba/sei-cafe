@@ -9,12 +9,12 @@ import CategoryList from '../../components/CategoryList/CategoryList'
 import OrderDetail from '../../components/OrderDetail/OrderDetail'
 import UserLogOut from '../../components/UserLogOut/UserLogOut'
 
-export default function NewOrderPage({ user, setUser }) {
+export default function NewOrderPage({ user, setUser, categoriesRef, activeCat, setActiveCat }) {
   const [menuItems, setMenuItems] = useState([])
-  const [activeCat, setActiveCat] = useState('')
+  // const [activeCat, setActiveCat] = useState('')
   const [cart, setCart] = useState(null)
   const [activeStripe, setActiveStripe] = useState(false)
-  const categoriesRef = useRef([])
+  // const categoriesRef = useRef([])
  
   // The empty dependency array causes the effect
   // to run ONLY after the FIRST render
